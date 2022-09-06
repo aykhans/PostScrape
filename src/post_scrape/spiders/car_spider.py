@@ -6,11 +6,12 @@ class ToScrapeCSSSpider(scrapy.Spider):
     headers = {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'
         }
-    last_page = 1
+    first_page = 1
+    last_page = 2
 
     def start_requests(self):
         urls = [
-            'https://turbo.az/autos',
+            f'https://turbo.az/autos?page={self.first_page}',
         ]
 
         for url in urls:
@@ -23,7 +24,7 @@ class ToScrapeCSSSpider(scrapy.Spider):
             yield response.follow(f"https://turbo.az{p.get()}", callback=self.parse_detail_url, headers=self.headers)
 
         next_page = response.xpath('//a[@rel="next"]/@href').get()
-        if next_page is not None and int(next_page[next_page.rfind('=')+1:]) <= self.last_page:
+        if next_page is not None and int(next_page[next_page.rfind('=')+1:]) < self.last_page:
             yield response.follow(f"https://turbo.az{next_page}", callback=self.parse, headers=self.headers)
 
     def parse_detail_url(self, r):
