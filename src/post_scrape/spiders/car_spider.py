@@ -27,6 +27,8 @@ class ToScrapeCSSSpider(scrapy.Spider):
             yield response.follow(f"https://turbo.az{next_page}", callback=self.parse, headers=self.headers)
 
     def parse_detail_url(self, r):
+        images = [r.xpath('//a[@class="product-photos-large"]/@href').get()]
+        images += r.xpath('//div[@class="product-photos"]/div/a/@href').getall()
         if r.xpath('//div[@class="shop-container"]'):
             avto_salon = True
             phone = r.xpath('//div[@class="shop-contact--phones-list"]//a[@class="shop-contact--phones-number"]/text()').getall()
@@ -90,6 +92,7 @@ class ToScrapeCSSSpider(scrapy.Spider):
         yield {
             'url': r.url,
             'avto_salon': avto_salon,
+            'images': images,
             'phone': phone,
             'extra_fields': extra_fields,
             'description': description,
