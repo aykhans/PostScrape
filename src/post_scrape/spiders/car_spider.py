@@ -1,13 +1,18 @@
-import scrapy
+from scrapy.spiders import Spider
+from scrapy import Request
 
 
-class ToScrapeCSSSpider(scrapy.Spider):
-    name = "car"
+class CarDataSpider(Spider):
+    name = "turbo.az"
+    allowed_domains = ('turbo.az',)
     headers = {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'
         }
-    first_page = 1
-    last_page = 2
+
+    def __init__(self, first_page=1, last_page=2, *args, **kwargs):
+        super(CarDataSpider, self).__init__(*args, **kwargs)
+        self.first_page = first_page
+        self.last_page = int(last_page)
 
     def start_requests(self):
         urls = [
@@ -15,7 +20,7 @@ class ToScrapeCSSSpider(scrapy.Spider):
         ]
 
         for url in urls:
-            yield scrapy.Request(url=url, headers=self.headers, callback=self.parse)
+            yield Request(url=url, headers=self.headers, callback=self.parse)
 
     def parse(self, response):
         posts = response.xpath('//div[@class="products-container"]//div[@class="products"]')[2].xpath('./div/a[@class="products-i__link"]/@href')
@@ -35,7 +40,7 @@ class ToScrapeCSSSpider(scrapy.Spider):
             phone = r.xpath('//div[@class="shop-contact--phones-list"]//a[@class="shop-contact--phones-number"]/text()').getall()
         else:
             avto_salon = False
-            phone = r.xpath('//a[@class="phone"]/text()').get()
+            phone = [r.xpath('//a[@class="phone"]/text()').get()]
 
         barter, loan = False, False
 
