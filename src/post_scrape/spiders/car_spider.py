@@ -6,8 +6,8 @@ class CarDataSpider(Spider):
     name = "turbo.az"
     allowed_domains = ('turbo.az',)
     headers = {
-            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'
-        }
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'
+    }
 
     def __init__(self, first_page=1, last_page=2, *args, **kwargs):
         super(CarDataSpider, self).__init__(*args, **kwargs)
