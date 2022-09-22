@@ -62,7 +62,7 @@ ROBOTSTXT_OBEY = True
 
 ITEM_PIPELINES = {
     # 'post_scrape.pipelines.SqlitePostPipeline': 300,
-    'post_scrape.pipelines.PostgresqlPostPipeline': 300,
+    # 'post_scrape.pipelines.PostgresqlPostPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
