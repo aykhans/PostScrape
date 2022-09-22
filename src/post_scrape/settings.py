@@ -60,9 +60,10 @@ ROBOTSTXT_OBEY = True
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
 
-# ITEM_PIPELINES = {
-#     'post_scrape.pipelines.SqlitePostPipeline': 300,
-# }
+ITEM_PIPELINES = {
+    # 'post_scrape.pipelines.SqlitePostPipeline': 300,
+    'post_scrape.pipelines.PostgresqlPostPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
